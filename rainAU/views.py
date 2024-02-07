@@ -1,20 +1,47 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-import codecs
 import csv
-
-# Create your views here.
+from rainAU.models import RainInAu
+from datetime import datetime
+from django.http import HttpResponse
+from rainAU.data_process import dataClean
+import uuid
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return HttpResponse("Hello, world. You're at the rainAU index.")
 
-def uploadFile():
-    dic = {}
-    num = 1
-    with codecs.open('../weatherAUS.csv', encoding='utf-8-sig') as f:
-        for row in csv.DictReader(f,skipinitialspace=True):
-            if row['Location'] not in list(dic.values()):
-                dic[str(num)] = row['Location']
-                num+=1
-    f.close()
-    print(dic.items())
+def error_view(request):
+    return HttpResponse("Something is wrong")
+
+def insert_data(request):
+    file_path = './weatherAUS.csv'
+
+    current_date = datetime.now()
+    print("Start insert data: " + current_date.strftime('%m-%d-%y, %H:%M:%S'))
+    try:
+        with open(file_path, 'r') as file:
+            reader = csv.DictReader(file)
+            rain_data_to_insert = list()
+
+            for row in reader:
+                if dataClean.clean_NA(row['MinTemp']) and dataClean.clean_NA(row['MaxTemp']) and dataClean.clean_NA(row['Rainfall']) and dataClean.clean_NA(row['RainToday']) and dataClean.clean_NA(row['RainTomorrow']):
+                    rain_data_to_insert.append(RainInAu(
+                        location=row['Location'],
+                        record_date=row['Date'],
+                        #published_date=datetime.strptime(row['published_date'], '%Y-%m-%d').date(),
+                        MinTemp=row['MinTemp'],
+                        MaxTemp=row['MaxTemp'],
+                        Rainfall=row['Rainfall'],
+                        RainToday=dataClean.str2bool(row['RainToday']),
+                        RainTomorrow=dataClean.str2bool(row['RainTomorrow']),
+                        id=uuid.uuid4(),
+                    ))
+
+        RainInAu.objects.bulk_create(rain_data_to_insert)
+
+        current_date = datetime.now()
+        print("Finish insert data: " + current_date.strftime('%m-%d-%y, %H:%M:%S'))
+
+        return HttpResponse("Success")
+    except Exception as ex:
+        print(ex)
+        return HttpResponse("Fail")
+
