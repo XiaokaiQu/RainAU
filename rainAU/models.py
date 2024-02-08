@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
+import uuid
 
 # Location choices
 LOCATION_CHOICES = (
@@ -55,18 +56,42 @@ LOCATION_CHOICES = (
 )
 
 class RainInAu(models.Model):
-    id = models.UUIDField(primary_key = True)
+    id = models.UUIDField(
+        primary_key = True, 
+        default=uuid.uuid4, 
+        editable=False
+    )
     location = models.CharField(
+        verbose_name='location',
         max_length = 20,
         choices = LOCATION_CHOICES,
         default = '0'
     )
-    record_date = models.CharField(max_length=200)
-    MinTemp = models.CharField(max_length=200)
-    MaxTemp = models.CharField(max_length=200)
-    Rainfall = models.CharField(max_length=200)
-    RainToday = models.BooleanField()
-    RainTomorrow = models.BooleanField()
+    record_date = models.CharField(verbose_name='recordDate', max_length=200, null=True)
+    MinTemp = models.DecimalField(verbose_name='mintemp', max_digits=20, decimal_places=1, null=True)
+    MaxTemp = models.DecimalField(verbose_name='maxtemp', max_digits=20, decimal_places=1, null=True)
+    Rainfall = models.DecimalField(verbose_name='rainfall', max_digits=20, decimal_places=1, null=True)
+    Evaporation = models.CharField(verbose_name='evaporation',max_length=200, null=True)
+    Sunshine = models.CharField(verbose_name='sunshine',max_length=200, null=True)
+    WindGustDir = models.CharField(verbose_name='windGustDir',max_length=200, null=True)
+    WindGustSpeed= models.DecimalField(verbose_name='windGustSpeed', max_digits=20, decimal_places=1, null=True)
+    WindDir9am= models.CharField(verbose_name='windDir9am',max_length=200, null=True)
+    WindDir3pm= models.CharField(verbose_name='windDir3pm',max_length=200, null=True)
+    WindSpeed9am= models.DecimalField(verbose_name='windSpeed9am', max_digits=20, decimal_places=1, null=True)
+    WindSpeed3pm= models.DecimalField(verbose_name='windSpeed3pm', max_digits=20, decimal_places=1, null=True)
+    Humidity9am= models.DecimalField(verbose_name='humidity9am', max_digits=20, decimal_places=1, null=True)
+    Humidity3pm= models.DecimalField(verbose_name='Humidity3pm', max_digits=20, decimal_places=1, null=True)
+    Pressure9am= models.DecimalField(verbose_name='pressure9am', max_digits=20, decimal_places=1, null=True)
+    Pressure3pm= models.DecimalField(verbose_name='Pressure3pm', max_digits=20, decimal_places=1, null=True)
+    Cloud9am= models.DecimalField(verbose_name='cloud9am', max_digits=20, decimal_places=1, null=True)
+    Cloud3pm= models.DecimalField(verbose_name='cloud3pm', max_digits=20, decimal_places=1, null=True)
+    Temp9am= models.DecimalField(verbose_name='temp9am', max_digits=20, decimal_places=1, null=True)
+    Temp3pm= models.DecimalField(verbose_name='temp3pm', max_digits=20, decimal_places=1, null=True)
+    RainToday = models.BooleanField(verbose_name='rainToday', null=True)
+    RainTomorrow = models.BooleanField(verbose_name='rainTomorrow', null=True)
+
+    class Meta:
+        indexes = [models.Index(fields=['location',]),]
 
     def __str__(self):
         """String for representing the Model object."""

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% load static %}
+    <script src="{% static 'js/map.js' %}"></script>
+
+    <div class="rank_left">
+        <h1 class="table-light">Ranking of Rain Probability Today</h1>
+        <table class="table table-striped table-hover">
+            <tr><th scope="col">Ranking</th><th>Location</th><th>Rain Probability</th></tr>
+        
+        {% for i in score_rain_rank %}
+            <tr><td scope="row"><script>document.write(j);j++</script></td><td>{{ i.username }}</td><td>{{ i.score_val }}</td></tr>
+        {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}
