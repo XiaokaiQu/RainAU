@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rainAU',
+    #'rainAU',
+    'rainAU.apps.RainauConfig',
 ]
 
 MIDDLEWARE = [

@@ -1,3 +1,4 @@
+from django.shortcuts import render
 import csv
 from rainAU.models import RainInAu
 from datetime import datetime
@@ -7,6 +8,11 @@ import uuid
 
 def index(request):
     return HttpResponse("Hello, world. You're at the rainAU index.")
+
+def showEx(request):
+    example_rain_list = RainInAu.objects.order_by("-record_date")[:10]
+    context = {"example_rain_list": example_rain_list}
+    return render(request, "rainAU_main/showEx.html", context)
 
 def error_view(request):
     return HttpResponse("Something is wrong")

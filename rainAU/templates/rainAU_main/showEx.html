@@ -1,0 +1,16 @@
+{% if example_rain_list %}
+    <ul>
+    {% for rain in example_rain_list %}
+        <!-- <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
+        <li>{{ rain.location }}</li>
+        <li>{{ rain.record_date }}</li>
+        <li>{{ rain.MinTemp }}</li>
+        <li>{{ rain.MaxTemp }}</li>
+        <li>{{ rain.Rainfall }}</li>
+        <li>{{ rain.RainToday }}</li>
+        <li>{{ rain.RainTomorrow }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No rainRecords are available.</p>
+{% endif %}
