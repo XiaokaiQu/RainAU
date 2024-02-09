@@ -1,13 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect, get_object_or_404
+from django.urls import reverse
+from django.db.models  import Count
 import csv
-from rainAU.models import RainInAu
 from datetime import datetime
 from django.http import HttpResponse
+from rainAU.models import RainInAu
 from rainAU.data_process import dataClean
 
-
+#Jump to Home Page
 def main_map(request):
-    return render(request, "map_forecast.html")
+    return redirect(reverse("rainAU:rankRP"))
 
 # def showEx(request):
 #     example_rain_list = RainInAu.objects.order_by("-record_date")[:10]
@@ -15,11 +17,29 @@ def main_map(request):
 #     return render(request, "rainAU_main/showEx.html", context)
 
 def rank_rain_poss(request):
-    a = datetime.today()
-    print(a)
-    #ROUND(COUNT(CASE WHEN result='A' THEN result END)/COUNT(*),2) AS rate1
-    #RainInAu.objects.values('location','')
-    return HttpResponse("Success")
+    today_date = datetime.now().strftime("-%m-%d")
+
+    #Obtain the total number of certain location today 
+    today_count = RainInAu.objects.filter(record_date__endswith=today_date).values('location').annotate(loca_num = Count('location'))
+    #Obtain the times of rainy in certain location today
+    today_rain_count = list(RainInAu.objects.filter(record_date__endswith=today_date,RainToday=True).values('location').annotate(loca_rain_num = Count('location')))
+    
+    #store the probability of rain in certain location
+    score_rain = {}
+
+    for j in today_rain_count:
+        score_rain[j['location']] = j['loca_rain_num']
+
+    #Calculate percentage
+    for i in list(today_count):
+        if i['location'] in score_rain.keys():
+            score_rain[i['location']] = str(round(score_rain.get(i['location'])/i['loca_num'],2) * 100) + '%'
+        else:
+            score_rain[i['location']] = '0.0%'
+
+    #Sort by percentage
+    score_rain_rank = dict(sorted(score_rain.items(),key = lambda x:x[1],reverse = True))
+    return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
 
 
 def error_view(request):
