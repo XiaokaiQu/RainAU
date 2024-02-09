@@ -17,6 +17,7 @@ def main_map(request):
 #     return render(request, "rainAU_main/showEx.html", context)
 
 def rank_rain_poss(request):
+    print(1)
     today_date = datetime.now().strftime("-%m-%d")
 
     #Obtain the total number of certain location today 
@@ -39,8 +40,14 @@ def rank_rain_poss(request):
 
     #Sort by percentage
     score_rain_rank = dict(sorted(score_rain.items(),key = lambda x:x[1],reverse = True))
+
     return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
 
+def hty_tmp_location(request, pk):
+    print(pk)
+    #task = get_object_or_404(RainInAu, pk=pk)
+    #return render(request, "tasks/task_detail.html", { "task": task, })
+    return render(request, "historical_temperature.html", { "oo":{1,2},})
 
 def error_view(request):
     return HttpResponse("Something is wrong")
