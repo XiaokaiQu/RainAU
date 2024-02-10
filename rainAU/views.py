@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect, get_object_or_404
+from django.views.generic import ListView
 from django.urls import reverse
 from django.db.models  import Count
 import csv
@@ -16,14 +17,15 @@ def main_map(request):
 #     context = {"example_rain_list": example_rain_list}
 #     return render(request, "rainAU_main/showEx.html", context)
 
+#Ranking of Rain Probability Tomorrow
 def rank_rain_poss(request):
-    print(1)
+
     today_date = datetime.now().strftime("-%m-%d")
 
     #Obtain the total number of certain location today 
     today_count = RainInAu.objects.filter(record_date__endswith=today_date).values('location').annotate(loca_num = Count('location'))
     #Obtain the times of rainy in certain location today
-    today_rain_count = list(RainInAu.objects.filter(record_date__endswith=today_date,RainToday=True).values('location').annotate(loca_rain_num = Count('location')))
+    today_rain_count = list(RainInAu.objects.filter(record_date__endswith=today_date,RainTomorrow=True).values('location').annotate(loca_rain_num = Count('location')))
     
     #store the probability of rain in certain location
     score_rain = {}
@@ -43,10 +45,28 @@ def rank_rain_poss(request):
 
     return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
 
-def hty_tmp_location(request, pk):
-    print(pk)
-    #task = get_object_or_404(RainInAu, pk=pk)
-    #return render(request, "tasks/task_detail.html", { "task": task, })
+
+class LocationDetailView(ListView):
+    model = RainInAu
+    template_name = 'historical_temperature.html'
+    context_object_name = 'RainInAu'
+
+    def get_queryset(self):
+        return RainInAu.objects.filter(location=self.request.location).order_by('-record_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['loc'] =  self.request.location
+        return context
+    
+#Historical Temperature
+def hty_tmp_location(request, location):
+    print(location)
+    #Get category/date
+
+    #Get MinTemp
+
+    #Get MaxTemp
     return render(request, "historical_temperature.html", { "oo":{1,2},})
 
 def error_view(request):

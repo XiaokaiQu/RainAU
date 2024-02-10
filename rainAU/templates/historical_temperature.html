@@ -3,11 +3,7 @@
 {% block content %}
 
     {% load static %}
-    
-
-    <div class="rank_left">
-        <h1 class="table-light">Historical Temperature</h1>
-        <div id="main_echart" style="width: 600px;height:400px;"></div>
-    </div>
+    <script src="{% static 'js/echarts.js' %}"></script>
+    <div id="container" style="height: 500px"></div>
     <script type="text/javascript" src="{% static 'js/historical_temperature.js' %}"></script>
 {% endblock %}

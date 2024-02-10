@@ -1,27 +1,114 @@
-// 基于准备好的dom，初始化echarts实例
-var myChart = echarts.init(document.getElementById('main_echart'));
+var dom = document.getElementById('container');
+var myChart = echarts.init(dom, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
 
-// 指定图表的配置项和数据
-var option = {
-  title: {
-    text: 'ECharts 入门示例'
+var app = {};
+
+var option;
+
+option = {
+    title: {
+    text: 'Temperature Change in the Coming Week'
   },
-  tooltip: {},
-  legend: {
-    data: ['销量']
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {},
+  toolbox: {
+    show: true,
+    feature: {
+      dataZoom: {
+        yAxisIndex: 'none'
+      },
+      dataView: { readOnly: false },
+      magicType: { type: ['line', 'bar'] },
+      restore: {},
+      saveAsImage: {}
+    }
   },
   xAxis: {
-    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+    type: 'category',
+    boundaryGap: false,
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
-  yAxis: {},
-  series: [
+  yAxis: {
+    type: 'value',
+    axisLabel: {
+      formatter: '{value} °C'
+    }
+  },
+    series: [
     {
-      name: '销量',
-      type: 'bar',
-      data: [5, 20, 36, 10, 10, 20]
+      name: 'Highest',
+      type: 'line',
+      data: [10, 11, 13, 11, 12, 12, 9],
+      markPoint: {
+        data: [
+          { type: 'max', name: 'Max' },
+          { type: 'min', name: 'Min' }
+        ]
+      },
+      markLine: {
+        data: [
+          { type: 'average', name: 'Avg' },
+          [
+            {
+              symbol: 'none',
+              x: '90%',
+              yAxis: 'max'
+            },
+            {
+              symbol: 'circle',
+              label: {
+                position: 'start',
+                formatter: 'Max'
+              },
+              type: 'max',
+              name: 'Max'
+            }
+          ]
+        ]
+      }
+    },
+    {
+      name: 'Lowest',
+      type: 'line',
+      data: [1, -2, 2, 5, 3, 2, 0],
+      markPoint: {
+        data: [
+          { type: 'max', name: 'Max' },
+          { type: 'min', name: 'Min' }
+        ]
+      },
+      markLine: {
+        data: [
+          { type: 'average', name: 'Avg' },
+          [
+            {
+              symbol: 'none',
+              x: '90%',
+              yAxis: 'min'
+            },
+            {
+              symbol: 'circle',
+              label: {
+                position: 'start',
+                formatter: 'Min'
+              },
+              type: 'min',
+              name: 'Min'
+            }
+          ]
+        ]
+      }
     }
   ]
 };
 
-// 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+if (option && typeof option === 'object') {
+  myChart.setOption(option);
+}
+
+window.addEventListener('resize', myChart.resize);

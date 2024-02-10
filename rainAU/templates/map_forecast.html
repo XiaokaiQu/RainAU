@@ -5,7 +5,7 @@
     <script src="{% static 'js/map.js' %}"></script>
 
     <div class="rank_left">
-        <h1 class="table-light">Ranking of Rain Probability Today</h1>
+        <h1 class="table-light">Ranking of Rain Probability Tomorrow</h1>
         <table class="table table-striped table-hover">
             <tr><th scope="col">Ranking</th><th>Location</th><th>Rain Probability</th></tr>
         
@@ -13,6 +13,7 @@
             <tr><td scope="row">{{ forloop.counter}}</td>
                 <td>{{ key }}</td>
                 <td>{{ value }}</td>
+                <td><a href="{% url 'rainAU:htl' %}">Historical Temperature</a></td>
             </tr>
         {% endfor %}
 

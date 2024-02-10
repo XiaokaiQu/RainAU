@@ -11,21 +11,18 @@
         <!--Outer chain style in main.css file-->
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
-        {% load static %}
-        <script src="{% static 'js/echarts.js' %}"></script>
     </head>
     
     <body>
         <div class="navbar">
             <a href="{% url 'rainAU:rankRP' %}">Today's Forecast</a>
-            <a href="{% url 'rainAU:htlocation' 1 %}">Historical Temperature</a>
             <a href="#">Historical Rainfall</a>
             <a href="#">Download</a>
         </div>
         
         {% block content %}{% endblock %}
 
-        <div class="footer">
+        <div class="footer" >
             <h2>Reserved content</h2>
         </div>
     </body>
