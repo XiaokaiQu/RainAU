@@ -5,15 +5,19 @@
     <script src="{% static 'js/map.js' %}"></script>
 
     <div class="rank_left">
-        <h1 class="table-light">Ranking of Rain Probability Tomorrow</h1>
+        <h1 class="text-center"><small class="text-muted">Ranking of Rain Probability Tomorrow</small></h1>
+        <blockquote class="blockquote">
+            <footer class="blockquote-footer">The first button in detail can access the data graph of past temperatures in the current region</footer>
+            <footer class="blockquote-footer">Second is data</footer>
+        </blockquote>
         <table class="table table-striped table-hover">
-            <tr><th scope="col">Ranking</th><th>Location</th><th>Rain Probability</th></tr>
+            <tr><th scope="col">Ranking</th><th>Location</th><th>Rain Probability</th><th>Detail</th></tr>
         
         {% for key,value in score_rain_rank.items %}
             <tr><td scope="row">{{ forloop.counter}}</td>
                 <td>{{ key }}</td>
                 <td>{{ value }}</td>
-                <td><a href="{% url 'rainAU:htl' %}">Historical Temperature</a></td>
+                <td><a class="btn btn-primary" role="button" href="{% url 'rainAU:htlocation' key %}"></a></td>
             </tr>
         {% endfor %}
 

@@ -15,7 +15,7 @@
     
     <body>
         <div class="navbar">
-            <a href="{% url 'rainAU:rankRP' %}">Today's Forecast</a>
+            <a href="{% url 'rainAU:rankRP' %}">Tomorrow's Forecast</a>
             <a href="#">Historical Rainfall</a>
             <a href="#">Download</a>
         </div>
@@ -23,7 +23,7 @@
         {% block content %}{% endblock %}
 
         <div class="footer" >
-            <h2>Reserved content</h2>
+            <h2><a href="{% url 'rainAU:rankRP' %}">Homepage</a></h2>
         </div>
     </body>
 </html>

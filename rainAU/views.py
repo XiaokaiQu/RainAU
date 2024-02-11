@@ -6,7 +6,8 @@ import csv
 from datetime import datetime
 from django.http import HttpResponse
 from rainAU.models import RainInAu
-from rainAU.data_process import dataClean
+from rainAU.data_process import dataClean, json_data
+import json
 
 #Jump to Home Page
 def main_map(request):
@@ -46,28 +47,39 @@ def rank_rain_poss(request):
     return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
 
 
-class LocationDetailView(ListView):
-    model = RainInAu
-    template_name = 'historical_temperature.html'
-    context_object_name = 'RainInAu'
+# class LocationDetailView(ListView):
+#     model = RainInAu
+#     template_name = 'historical_temperature.html'
+#     context_object_name = 'RainInAu'
 
-    def get_queryset(self):
-        return RainInAu.objects.filter(location=self.request.location).order_by('-record_date')
+#     def get_queryset(self):
+#         return RainInAu.objects.filter(location=self.request.location).order_by('-record_date')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['loc'] =  self.request.location
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['loc'] =  self.request.location
+#         return context
     
 #Historical Temperature
-def hty_tmp_location(request, location):
-    print(location)
+def hty_tmp_location(request, loc):
+    print(loc)
+    temp_data = RainInAu.objects.filter(location=loc).values('record_date','MinTemp','MaxTemp').order_by('record_date')
+
     #Get category/date
-
+    date_list = []
     #Get MinTemp
-
+    minTemp_list = []
     #Get MaxTemp
-    return render(request, "historical_temperature.html", { "oo":{1,2},})
+    maxTemp_list = []
+    
+    for i in temp_data:
+        date_list.append(i['record_date'])
+        minTemp_list.append(i['MinTemp'])
+        maxTemp_list.append(i['MaxTemp'])
+
+    send_context = json.dumps({"date_list":date_list,"minTemp_list":minTemp_list,"maxTemp_list":maxTemp_list},cls=json_data.DecEncoder)
+
+    return render(request, "historical_temperature.html", {"send_context":send_context,"loc":loc})
 
 def error_view(request):
     return HttpResponse("Something is wrong")
@@ -119,4 +131,3 @@ def insert_data(request):
     except Exception as ex:
         print(ex)
         return HttpResponse("Fail")
-

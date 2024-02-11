@@ -9,9 +9,6 @@ var app = {};
 var option;
 
 option = {
-    title: {
-    text: 'Temperature Change in the Coming Week'
-  },
   tooltip: {
     trigger: 'axis'
   },
@@ -31,7 +28,7 @@ option = {
   xAxis: {
     type: 'category',
     boundaryGap: false,
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    data: temp_data.date_list
   },
   yAxis: {
     type: 'value',
@@ -43,7 +40,7 @@ option = {
     {
       name: 'Highest',
       type: 'line',
-      data: [10, 11, 13, 11, 12, 12, 9],
+      data: temp_data.maxTemp_list,
       markPoint: {
         data: [
           { type: 'max', name: 'Max' },
@@ -75,7 +72,7 @@ option = {
     {
       name: 'Lowest',
       type: 'line',
-      data: [1, -2, 2, 5, 3, 2, 0],
+      data: temp_data.minTemp_list,
       markPoint: {
         data: [
           { type: 'max', name: 'Max' },
