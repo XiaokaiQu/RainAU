@@ -46,21 +46,7 @@ def rank_rain_poss(request):
     score_rain_rank = dict(sorted(score_rain.items(),key = lambda x:x[1],reverse = True))
 
     return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
-
-
-# class LocationDetailView(ListView):
-#     model = RainInAu
-#     template_name = 'historical_temperature.html'
-#     context_object_name = 'RainInAu'
-
-#     def get_queryset(self):
-#         return RainInAu.objects.filter(location=self.request.location).order_by('-record_date')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['loc'] =  self.request.location
-#         return context
-    
+   
 #Historical Temperature
 def hty_tmp_location(request, loc):
     temp_data = RainInAu.objects.filter(location=loc).values('record_date','MinTemp','MaxTemp').order_by('record_date')
@@ -81,6 +67,7 @@ def hty_tmp_location(request, loc):
 
     return render(request, "historical_temperature.html", {"send_context":send_context,"loc":loc})
 
+#Historical Rainfall
 def history_rainfall(request):
     print(1)
     temp_data = RainInAu.objects.all().values('location','record_date','Rainfall').order_by('location','record_date')[:5]
@@ -101,12 +88,23 @@ def history_rainfall(request):
     return render(request, "historical_rainfall.html", {"send_context":1})
 
 class RainInAUListView(ListView):
-    queryset = RainInAu.objects.filter(location='perth').order_by('record_date')
+    model = RainInAu
     template_name = "location_detail.html"
     paginate_by = 20 # 20 data per page
+    
+    def get_queryset(self):
+        loc_val = self.kwargs.get('loc')
+        # If the 'location' is defined, the result will be filtered
+        if loc_val:
+            return super().get_queryset().filter(location=loc_val).order_by('record_date')
+        else:
+            return super().get_queryset().order_by('location','record_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        loc_val = self.kwargs.get('loc')
+        if loc_val:
+            context['loc'] = self.kwargs.get('loc')
         return context
 
 def error_view(request):
