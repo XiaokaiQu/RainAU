@@ -1,5 +1,6 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic.list import ListView
 from django.urls import reverse
 from django.db.models  import Count
 import csv
@@ -62,7 +63,6 @@ def rank_rain_poss(request):
     
 #Historical Temperature
 def hty_tmp_location(request, loc):
-    print(loc)
     temp_data = RainInAu.objects.filter(location=loc).values('record_date','MinTemp','MaxTemp').order_by('record_date')
 
     #Get category/date
@@ -80,6 +80,34 @@ def hty_tmp_location(request, loc):
     send_context = json.dumps({"date_list":date_list,"minTemp_list":minTemp_list,"maxTemp_list":maxTemp_list},cls=json_data.DecEncoder)
 
     return render(request, "historical_temperature.html", {"send_context":send_context,"loc":loc})
+
+def history_rainfall(request):
+    print(1)
+    temp_data = RainInAu.objects.all().values('location','record_date','Rainfall').order_by('location','record_date')[:5]
+    print(temp_data)
+    # #Get category/date
+    # date_list = []
+    # #Get Rainfall
+    # rainFall_list = []
+    # #Get Location
+    # location_list = []
+    # for i in temp_data:
+    #     if i['location'] in location_list:
+    #         rainFall_list.append(i['Rainfall'])
+    #     date_list.append(i['record_date'])
+
+    #send_context = json.dumps({"date_list":date_list,"rainFall_list":rainFall_list,"location_list":location_list},cls=json_data.DecEncoder)
+
+    return render(request, "historical_rainfall.html", {"send_context":1})
+
+class RainInAUListView(ListView):
+    queryset = RainInAu.objects.filter(location='perth').order_by('record_date')
+    template_name = "location_detail.html"
+    paginate_by = 20 # 20 data per page
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 def error_view(request):
     return HttpResponse("Something is wrong")
