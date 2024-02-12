@@ -48,28 +48,8 @@ def rank_rain_poss(request):
     return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
    
 #Historical Temperature
-# def hty_tmp_location(request, loc):
-#     temp_data = RainInAu.objects.filter(location=loc).values('record_date','MinTemp','MaxTemp').order_by('record_date')
-
-#     #Get category/date
-#     date_list = []
-#     #Get MinTemp
-#     minTemp_list = []
-#     #Get MaxTemp
-#     maxTemp_list = []
-    
-#     for i in temp_data:
-#         date_list.append(i['record_date'])
-#         minTemp_list.append(i['MinTemp'])
-#         maxTemp_list.append(i['MaxTemp'])
-
-#     send_context = json.dumps({"date_list":date_list,"minTemp_list":minTemp_list,"maxTemp_list":maxTemp_list},cls=json_data.DecEncoder)
-
-#     return render(request, "historical_temperature.html", {"send_context":send_context,"loc":loc})
-
 #Historical Rainfall vs Evaporation
 def history_charPage(request,loc,type):
-    print(loc, type)
     filter_type1 = ''
     filter_type2 = ''
     template_name = ''
@@ -81,7 +61,7 @@ def history_charPage(request,loc,type):
         filter_type1 = 'MinTemp'
         filter_type2 = 'MaxTemp'
         template_name = 'historical_temperature.html'
-    temp_data = RainInAu.objects.filter(location=loc).values('record_date',filter_type1,filter_type2).order_by('record_date')[:5]
+    temp_data = RainInAu.objects.filter(location=loc).values('record_date',filter_type1,filter_type2).order_by('record_date')
     
     #Get category/date
     date_list = []
@@ -93,9 +73,7 @@ def history_charPage(request,loc,type):
         date_list.append(i['record_date'])
         first_list.append(i[filter_type1])
         second_list.append(i[filter_type2])
-    print(first_list)
-    print(second_list)
-    print(template_name)
+
     send_context = json.dumps({"date_list":date_list,"first_list":first_list,"second_list":second_list},cls=json_data.DecEncoder)
 
     return render(request, template_name, {"send_context":send_context,"loc":loc})

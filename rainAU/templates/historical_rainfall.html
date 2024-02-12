@@ -9,8 +9,64 @@
     </script>
 
     <h1 class="table-light" align="center">Rainfall vs Evaporation in {{ loc }}</h1>
-
+    <blockquote class="blockquote">
+        <footer class="blockquote-footer">You can click below to switch to the region you want to view.</footer>
+    </blockquote>
+    
     <div id="container_hr" style="height: 500px"></div>
 
+    <form action="" method="">
+        <input type="radio" name="loc" value="Albury">Albury
+        <input type="radio" name="loc" value="BadgerysCreek">BadgerysCreek
+        <input type="radio" name="loc" value="Cobar">Cobar
+        <input type="radio" name="loc" value="CoffsHarbour">CoffsHarbour
+        <input type="radio" name="loc" value="Moree">Moree
+        <input type="radio" name="loc" value="Newcastle">Newcastle
+        <input type="radio" name="loc" value="NorahHead">NorahHead
+        <input type="radio" name="loc" value="NorfolkIsland">NorfolkIsland
+        <input type="radio" name="loc" value="Penrith">Penrith
+        <input type="radio" name="loc" value="Richmond">Richmond
+        <input type="radio" name="loc" value="Sydney">Sydney
+        <input type="radio" name="loc" value="SydneyAirport">SydneyAirport
+        <input type="radio" name="loc" value="WaggaWagga">WaggaWagga
+        <input type="radio" name="loc" value="Williamtown">Williamtown
+        <input type="radio" name="loc" value="Wollongong">Wollongong
+        <input type="radio" name="loc" value="Canberra">Canberra
+        <input type="radio" name="loc" value="Tuggeranong">Tuggeranong
+        <input type="radio" name="loc" value="MountGinini">MountGinini
+        <input type="radio" name="loc" value="Ballarat">Ballarat
+        <input type="radio" name="loc" value="Bendigo">Bendigo
+        <input type="radio" name="loc" value="Sale">Sale
+        <input type="radio" name="loc" value="MelbourneAirport">MelbourneAirport
+        <input type="radio" name="loc" value="Melbourne">Melbourne
+        <input type="radio" name="loc" value="Mildura">Mildura
+        <input type="radio" name="loc" value="Nhil">Nhil
+        <input type="radio" name="loc" value="Portland">Portland
+        <input type="radio" name="loc" value="Watsonia">Watsonia
+        <input type="radio" name="loc" value="Dartmoor">Dartmoor
+        <input type="radio" name="loc" value="Brisbane">Brisbane
+        <input type="radio" name="loc" value="Cairns">Cairns
+        <input type="radio" name="loc" value="GoldCoast">GoldCoast
+        <input type="radio" name="loc" value="Townsville">Townsville
+        <input type="radio" name="loc" value="Adelaide">Adelaide
+        <input type="radio" name="loc" value="MountGambier">MountGambier
+        <input type="radio" name="loc" value="Nuriootpa">Nuriootpa
+        <input type="radio" name="loc" value="Woomera">Woomera
+        <input type="radio" name="loc" value="Albany">Albany
+        <input type="radio" name="loc" value="Witchcliffe">Witchcliffe
+        <input type="radio" name="loc" value="PearceRAAF">PearceRAAF
+        <input type="radio" name="loc" value="PerthAirport">PerthAirport
+        <input type="radio" name="loc" value="Perth">Perth
+        <input type="radio" name="loc" value="SalmonGums">SalmonGums
+        <input type="radio" name="loc" value="Walpole">Walpole
+        <input type="radio" name="loc" value="Hobart">Hobart
+        <input type="radio" name="loc" value="Launceston">Launceston
+        <input type="radio" name="loc" value="AliceSprings">AliceSprings
+        <input type="radio" name="loc" value="Darwin">Darwin
+        <input type="radio" name="loc" value="Katherine">Katherine
+        <input type="radio" name="loc" value="Uluru">Uluru
+    </form>
+    
     <script type="text/javascript" src="{% static 'js/historical_rainfall.js' %}"></script>
+
 {% endblock %}

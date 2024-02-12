@@ -1,3 +1,11 @@
+window.onload = function(){
+  var temp_loc = $("h1").text().substring(27);
+  $("input:radio[value=" + temp_loc + "]").prop('checked',true);
+  $(":radio").click(function(){
+      window.location.href='/rainAU/charPage/'+ $(this).val() + '/1'
+  });
+};
+
 var dom = document.getElementById('container_hr');
 var myChart = echarts.init(dom, null, {
   renderer: 'canvas',
