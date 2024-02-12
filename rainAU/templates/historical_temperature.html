@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% load static %}
+    <script src="{% static 'js/echarts.js' %}"></script>
+    <script>
+        var temp_data = {{ send_context|safe }};
+    </script>
+
+    <h1 class="table-light" align="center">Historical temperature in {{ loc }}</h1>
+    <div id="container_ht" style="height: 500px"></div>
+
+    <script type="text/javascript" src="{% static 'js/historical_temperature.js' %}"></script>
+{% endblock %}

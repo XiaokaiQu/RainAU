@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% load static %}
+    <script src="{% static 'js/echarts.js' %}"></script>
+    <!-- <script>
+        var temp_data = {{ send_context|safe }};
+    </script> -->
+
+    <h1 class="table-light" align="center">Historical Rainfall from 2008 to 2017</h1>
+
+    <div id="container_hr" style="height: 500px"></div>
+
+    <script type="text/javascript" src="{% static 'js/historical_rainfall.js' %}"></script>
+{% endblock %}
