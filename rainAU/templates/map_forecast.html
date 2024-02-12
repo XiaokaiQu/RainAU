@@ -15,8 +15,8 @@
             <tr><td scope="row">{{ forloop.counter}}</td>
                 <td>{{ key }}</td>
                 <td>{{ value }}</td>
-                <td><a class="btn btn-primary" role="button" href="{% url 'rainAU:htlocation' key %}"></a>
-                    <a class="btn btn-success" role="button" href="{% url 'rainAU:rainList' key %}"></a></td>
+                <td><a class="btn btn-primary" role="button" href="{% url 'rainAU:charPage' loc=key type=2 %}"></a>
+                    <a class="btn btn-success" role="button" href="{% url 'rainAU:rainList' key %}"></a></td>   
             </tr>
         {% endfor %}
 

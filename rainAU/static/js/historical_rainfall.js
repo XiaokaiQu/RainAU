@@ -1,77 +1,75 @@
 var dom = document.getElementById('container_hr');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-    
-    var option;
+var myChart = echarts.init(dom, null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+var app = {};
 
-    option = {
-  title: {
-    text: 'Stacked Line'
-  },
+var option;
+
+option = {
   tooltip: {
     trigger: 'axis'
   },
   legend: {
-    data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
-  },
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
+    data: ['Rainfall', 'Evaporation']
   },
   toolbox: {
+    show: true,
     feature: {
-      saveAsImage: {}
+      dataView: { show: true, readOnly: false },
+      magicType: { show: true, type: ['line', 'bar'] },
+      restore: { show: true },
+      saveAsImage: { show: true }
     }
   },
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sun']
-  },
-  yAxis: {
-    type: 'value'
-  },
+  calculable: true,
+  xAxis: [
+    {
+      type: 'category',
+      // prettier-ignore
+      data: temp_data.date_list
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
   series: [
     {
-      name: 'Email11',
-      type: 'line',
-      stack: 'Total',
-      data: [120, 132, 101, 134, 90, 1, 210,23]
+      name: 'Rainfall',
+      type: 'bar',
+      data: temp_data.first_list,
+      markPoint: {
+        data: [
+          { type: 'max', name: 'Max' },
+          { type: 'min', name: 'Min' }
+        ]
+      },
+      markLine: {
+        data: [{ type: 'average', name: 'Avg' }]
+      }
     },
     {
-      name: 'Union Ads',
-      type: 'line',
-      stack: 'Total',
-      data: [220, 182, 191, 234, 290, 330, 310]
-    },
-    {
-      name: 'Video Ads',
-      type: 'line',
-      stack: 'Total',
-      data: [150, 232, 201, 154, 190, 1, 410]
-    },
-    {
-      name: 'Direct',
-      type: 'line',
-      stack: 'Total',
-      data: [320, 332, 301, 334, 390, 330, 320]
-    },
-    {
-      name: 'Search Engine',
-      type: 'line',
-      stack: 'Total',
-      data: [820, 932, 901, 934, 1290, 1330, 1320]
+      name: 'Evaporation',
+      type: 'bar',
+      data: temp_data.second_list,
+      markPoint: {
+        data: [
+          { name: 'Max', value: 182.2, xAxis: 7, yAxis: 183 },
+          { name: 'Min', value: 2.3, xAxis: 11, yAxis: 3 }
+        ]
+      },
+      markLine: {
+        data: [{ type: 'average', name: 'Avg' }]
+      }
     }
   ]
 };
 
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
-    }
+if (option && typeof option === 'object') {
+  myChart.setOption(option);
+}
 
-    window.addEventListener('resize', myChart.resize);
+window.addEventListener('resize', myChart.resize);

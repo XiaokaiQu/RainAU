@@ -15,7 +15,7 @@
     <body>
         <div class="navbar">
             <a href="{% url 'rainAU:rankRP' %}">Tomorrow's Forecast</a>
-            <a href="{% url 'rainAU:hrPage' %}">Historical Rainfall</a>
+            <a href="{% url 'rainAU:charPage' loc='Perth' type=1 %}">Historical Rainfall</a>
             <a onclick="down_click()" href="{% url 'rainAU:download_csv' %}" download>Download</a>
         </div>
         <div class="alert alert-success hide">Downloading...Thank you for your patient.</div>

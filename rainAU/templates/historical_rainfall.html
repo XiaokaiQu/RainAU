@@ -4,11 +4,11 @@
 
     {% load static %}
     <script src="{% static 'js/echarts.js' %}"></script>
-    <!-- <script>
+    <script>
         var temp_data = {{ send_context|safe }};
-    </script> -->
+    </script>
 
-    <h1 class="table-light" align="center">Historical Rainfall from 2008 to 2017</h1>
+    <h1 class="table-light" align="center">Rainfall vs Evaporation in {{ loc }}</h1>
 
     <div id="container_hr" style="height: 500px"></div>
 

@@ -28,7 +28,7 @@ option = {
   xAxis: {
     type: 'category',
     boundaryGap: false,
-    data: temp_data.date_list
+    data: temp_data_ht.date_list
   },
   yAxis: {
     type: 'value',
@@ -40,7 +40,7 @@ option = {
     {
       name: 'Highest',
       type: 'line',
-      data: temp_data.maxTemp_list,
+      data: temp_data_ht.second_list,
       markPoint: {
         data: [
           { type: 'max', name: 'Max' },
@@ -72,7 +72,7 @@ option = {
     {
       name: 'Lowest',
       type: 'line',
-      data: temp_data.minTemp_list,
+      data: temp_data_ht.first_list,
       markPoint: {
         data: [
           { type: 'max', name: 'Max' },

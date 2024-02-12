@@ -5,7 +5,7 @@
     {% load static %}
     <script src="{% static 'js/echarts.js' %}"></script>
     <script>
-        var temp_data = {{ send_context|safe }};
+        var temp_data_ht = {{ send_context|safe }};
     </script>
 
     <h1 class="table-light" align="center">Historical temperature in {{ loc }}</h1>
