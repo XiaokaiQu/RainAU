@@ -69,7 +69,6 @@ def hty_tmp_location(request, loc):
 
 #Historical Rainfall
 def history_rainfall(request):
-    print(1)
     temp_data = RainInAu.objects.all().values('location','record_date','Rainfall').order_by('location','record_date')[:5]
     print(temp_data)
     # #Get category/date
@@ -106,6 +105,29 @@ class RainInAUListView(ListView):
         if loc_val:
             context['loc'] = self.kwargs.get('loc')
         return context
+
+def download_csv(request):
+    request.set_cookie('downloading',True)
+    #File name
+    file_name = 'RainInAu' + datetime.now().strftime('%Y%m%d%H%M%S%f') + '.csv'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=' + file_name
+
+    writer = csv.writer(response)
+    
+    # Title
+    title_list = ['Location','RecordDate']
+    for field in RainInAu._meta.get_fields()[3:]:
+        title_list.append(field.name)
+    writer.writerow(title_list)
+
+    # Data
+    rain_datas = RainInAu.objects.all().values_list().order_by('location','record_date')
+    for rain_data in rain_datas:
+        writer.writerow(rain_data[1:])
+        
+    request.set_cookie('downloading',False)
+    return response
 
 def error_view(request):
     return HttpResponse("Something is wrong")

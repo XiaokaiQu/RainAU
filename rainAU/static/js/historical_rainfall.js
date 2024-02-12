@@ -41,7 +41,7 @@ var dom = document.getElementById('container_hr');
       name: 'Email11',
       type: 'line',
       stack: 'Total',
-      data: [120, 132, 101, 134, 90, 1, 210]
+      data: [120, 132, 101, 134, 90, 1, 210,23]
     },
     {
       name: 'Union Ads',

@@ -11,13 +11,14 @@
         <!--Outer chain style in main.css file-->
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <script src="{% static 'js/base.js' %}"></script>
     </head>
     
     <body>
         <div class="navbar">
             <a href="{% url 'rainAU:rankRP' %}">Tomorrow's Forecast</a>
             <a href="{% url 'rainAU:hrPage' %}">Historical Rainfall</a>
-            <a href="#">Download</a>
+            <a href="{% url 'rainAU:download_csv' %}" download>Download</a>
         </div>
         
         {% block content %}{% endblock %}
