@@ -124,7 +124,7 @@ def download_csv(request):
     rain_datas = RainInAu.objects.all().values_list().order_by('location','record_date')
     for rain_data in rain_datas:
         writer.writerow(rain_data[1:])
-    
+
     return response
 
 def error_view(request):
