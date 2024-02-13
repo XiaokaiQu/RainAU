@@ -1,23 +1,16 @@
-from django.db.models.query import QuerySet
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render,redirect
 from django.views.generic.list import ListView
 from django.urls import reverse
 from django.db.models  import Count
-import csv
+import csv, json
 from datetime import datetime
 from django.http import HttpResponse
-from rainAU.models import RainInAu
+from rainAU.models import RainInAu, LOCATION_CHOICES
 from rainAU.data_process import dataClean, json_data
-import json
 
 #Jump to Home Page
 def main_map(request):
     return redirect(reverse("rainAU:rankRP"))
-
-# def showEx(request):
-#     example_rain_list = RainInAu.objects.order_by("-record_date")[:10]
-#     context = {"example_rain_list": example_rain_list}
-#     return render(request, "rainAU_main/showEx.html", context)
 
 #Ranking of Rain Probability Tomorrow
 def rank_rain_poss(request):
@@ -53,16 +46,20 @@ def history_charPage(request,loc,type):
     filter_type1 = ''
     filter_type2 = ''
     template_name = ''
+    loc_list = []
     if type=='1':
         filter_type1 = 'Rainfall'
         filter_type2 = 'Evaporation'
         template_name = 'historical_rainfall.html'
+        for i in LOCATION_CHOICES[1:]:
+            loc_list.append(i[1])
+        loc_list.sort()
     else:
         filter_type1 = 'MinTemp'
         filter_type2 = 'MaxTemp'
         template_name = 'historical_temperature.html'
     temp_data = RainInAu.objects.filter(location=loc).values('record_date',filter_type1,filter_type2).order_by('record_date')
-    
+
     #Get category/date
     date_list = []
     #Get Rainfall/MinTemp
@@ -76,7 +73,7 @@ def history_charPage(request,loc,type):
 
     send_context = json.dumps({"date_list":date_list,"first_list":first_list,"second_list":second_list},cls=json_data.DecEncoder)
 
-    return render(request, template_name, {"send_context":send_context,"loc":loc})
+    return render(request, template_name, {"send_context":send_context,"loc":loc,"loc_list":loc_list})
 
 class RainInAUListView(ListView):
     model = RainInAu
@@ -116,7 +113,7 @@ def download_csv(request):
     rain_datas = RainInAu.objects.all().values_list().order_by('location','record_date')
     for rain_data in rain_datas:
         writer.writerow(rain_data[1:])
-
+    #writer.writerows(list(rain_datas))
     return response
 
 def error_view(request):
@@ -131,12 +128,11 @@ def insert_data(request):
         with open(file_path, 'r') as file:
             reader = csv.DictReader(file)
             rain_data_to_insert = list()
-            num = 0
+
             for row in reader:
                 rain_data_to_insert.append(RainInAu(
                     location=None if row['Location'] == 'NA' else row['Location'],
                     record_date=None if row['Date'] == 'NA' else row['Date'],
-                    #published_date=datetime.strptime(row['published_date'], '%Y-%m-%d').date(),
                     MinTemp=None if row['MinTemp'] == 'NA' else row['MinTemp'],
                     MaxTemp=None if row['MaxTemp'] == 'NA' else row['MaxTemp'],
                     Rainfall=None if row['Rainfall'] == 'NA' else row['Rainfall'],
