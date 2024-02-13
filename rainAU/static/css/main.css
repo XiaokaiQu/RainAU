@@ -32,24 +32,13 @@ body {
 }
 
 
-/* 创建两个列 */
-/* 边栏 */
-.side {
-    -ms-flex: 30%; /* IE10 */
-    flex: 30%;
-    background-color: #f1f1f1;
-    padding: 20px;
-}
-
-/* 主要的内容区域 */
 .main {   
-    -ms-flex: 70%; /* IE10 */
-    flex: 70%;
+    -ms-flex: 80%; /* IE10 */
+    flex: 80%;
     background-color: white;
     padding: 20px;
 }
 
-/* 测试图片 */
 .fakeimg {
     background-color: #aaa;
     width: 100%;
@@ -59,7 +48,8 @@ body {
 .footer {
     padding: 20px;
     text-align: center;
-    background: #ddd;
+    background: #333;
+    height: 6%;
 }
 
 /* Responsive Layout - When the width size of the screen device is less than 400px, stack the navigation bar up and down for display */
@@ -77,3 +67,20 @@ body {
     margin-left: 20%;
     z-index: 2000;
 }
+
+.return-btn, .return-btn:hover {
+    border: 1px solid rgba(255,255,255,.3);
+    padding: 10px 15px;
+    margin-top: 100px;
+    margin-bottom: 30px;
+    display: inline-block;
+    -webkit-border-radius: 5px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 5px;
+    -moz-background-clip: padding;
+    border-radius: 5px;
+    background-clip: padding-box;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+  }

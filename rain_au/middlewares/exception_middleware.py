@@ -1,6 +1,7 @@
 import traceback
-from django.http import JsonResponse
 import logging
+from django.urls import reverse
+from django.shortcuts import redirect
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ class ExceptionMiddleware:
         return response
 
     def process_exception(self, request, exception):
-
+        
         traceback_info = traceback.format_exc()
         logger.info(f"request_path: {request.path}, traceback_info: {traceback_info}")
-        return JsonResponse({"code": -1, "msg": "error"}, status=500)
+        return redirect(reverse("rainAU:error"))

@@ -7,6 +7,9 @@ from datetime import datetime
 from django.http import HttpResponse
 from rainAU.models import RainInAu, LOCATION_CHOICES
 from rainAU.data_process import dataClean, json_data
+import logging
+
+logging = logging.getLogger(__name__)
 
 #Jump to Home Page
 def main_map(request):
@@ -16,6 +19,8 @@ def main_map(request):
 def rank_rain_poss(request):
 
     today_date = datetime.now().strftime("-%m-%d")
+
+    logging.info("Start calculate Rain Probability")
 
     #Obtain the total number of certain location today 
     today_count = RainInAu.objects.filter(record_date__endswith=today_date).values('location').annotate(loca_num = Count('location'))
@@ -35,9 +40,11 @@ def rank_rain_poss(request):
         else:
             score_rain[i['location']] = '0.0%'
 
+    logging.info("Finish calculate Rain Probability")
+
     #Sort by percentage
     score_rain_rank = dict(sorted(score_rain.items(),key = lambda x:x[1],reverse = True))
-
+    
     return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
    
 #Historical Temperature
@@ -47,6 +54,9 @@ def history_charPage(request,loc,type):
     filter_type2 = ''
     template_name = ''
     loc_list = []
+
+    logging.info("Start get data for chart")
+
     if type=='1':
         filter_type1 = 'Rainfall'
         filter_type2 = 'Evaporation'
@@ -58,8 +68,12 @@ def history_charPage(request,loc,type):
         filter_type1 = 'MinTemp'
         filter_type2 = 'MaxTemp'
         template_name = 'historical_temperature.html'
-    temp_data = RainInAu.objects.filter(location=loc).values('record_date',filter_type1,filter_type2).order_by('record_date')
 
+    temp_data = RainInAu.objects.filter(location=loc).values('record_date',filter_type1,filter_type2).order_by('record_date')
+    
+    if len(temp_data) == 0:
+        raise Exception(1001,"No valid values found")
+    
     #Get category/date
     date_list = []
     #Get Rainfall/MinTemp
@@ -71,6 +85,8 @@ def history_charPage(request,loc,type):
         first_list.append(i[filter_type1])
         second_list.append(i[filter_type2])
 
+    logging.info("Finish calculate Rain Probability")
+
     send_context = json.dumps({"date_list":date_list,"first_list":first_list,"second_list":second_list},cls=json_data.DecEncoder)
 
     return render(request, template_name, {"send_context":send_context,"loc":loc,"loc_list":loc_list})
@@ -81,11 +97,15 @@ class RainInAUListView(ListView):
     paginate_by = 20 # 20 data per page
     
     def get_queryset(self):
+        logging.info("Start query list by location")
+
         loc_val = self.kwargs.get('loc')
         # If the 'location' is defined, the result will be filtered
         if loc_val:
             return super().get_queryset().filter(location=loc_val).order_by('record_date')
         else:
+            logging.info("Dont have location info, turn to query all data")
+
             return super().get_queryset().order_by('location','record_date')
 
     def get_context_data(self, **kwargs):
@@ -96,30 +116,39 @@ class RainInAUListView(ListView):
         return context
 
 def download_csv(request):
-    #File name
-    file_name = 'RainInAu' + datetime.now().strftime('%Y%m%d%H%M%S%f') + '.csv'
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=' + file_name
+    logging.info("Start download file")
+    try:
+        #File name
+        file_name = 'RainInAu' + datetime.now().strftime('%Y%m%d%H%M%S%f') + '.csv'
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=' + file_name
 
-    writer = csv.writer(response)
+        writer = csv.writer(response)
+        
+        # Title
+        title_list = ['Location','RecordDate']
+        for field in RainInAu._meta.get_fields()[3:]:
+            title_list.append(field.name)
+        writer.writerow(title_list)
+
+        # Data
+        rain_datas = RainInAu.objects.all().values_list().order_by('location','record_date')
+        for rain_data in rain_datas:
+            writer.writerow(rain_data[1:])
+        #writer.writerows(list(rain_datas))
+            
+        logging.info("Finish download file")
+        return response
     
-    # Title
-    title_list = ['Location','RecordDate']
-    for field in RainInAu._meta.get_fields()[3:]:
-        title_list.append(field.name)
-    writer.writerow(title_list)
-
-    # Data
-    rain_datas = RainInAu.objects.all().values_list().order_by('location','record_date')
-    for rain_data in rain_datas:
-        writer.writerow(rain_data[1:])
-    #writer.writerows(list(rain_datas))
-    return response
+    except Exception as ex:
+        logging.error("Download file have error:"+ex)
+        return HttpResponse("Fail")
 
 def error_view(request):
-    return HttpResponse("Something is wrong")
+    return render(request,'error.html')
 
 def insert_data(request):
+    logging.info("Start insert file")
     file_path = './weatherAUS.csv'
 
     current_date = datetime.now()
@@ -163,5 +192,5 @@ def insert_data(request):
 
         return HttpResponse("Success")
     except Exception as ex:
-        print(ex)
+        logging.error("Upload file have error:"+ex)
         return HttpResponse("Fail")
