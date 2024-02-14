@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="rank_left">
+        <h1 class="text-center"><small class="text-muted">Ranking of Rain Probability Tomorrow</small></h1>
+        <blockquote class="blockquote">
+            <footer class="blockquote-footer">The first button in detail can access the data graph of past temperatures in the current location.</footer>
+            <footer class="blockquote-footer">Second button is raw data.</footer>
+        </blockquote>
+        <table class="table table-striped table-hover">
+            <tr><th scope="col">Ranking</th><th>Location</th><th>Rain Probability</th><th>Detail</th></tr>
+        
+        {% for key,value in score_rain_rank.items %}
+            <tr><td scope="row">{{ forloop.counter}}</td>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+                <td><a class="btn btn-primary" role="button" href="{% url 'rainAU:charPage' loc=key type=2 %}"></a>
+                    <a class="btn btn-success" role="button" href="{% url 'rainAU:rainList' key %}"></a></td>   
+            </tr>
+        {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}

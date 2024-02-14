@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/error.css' %}">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="error-header"> </div>
+    <div class="container ">
+    <section class="error-container text-center">
+        <h1>ooops!</h1>
+        <div class="error-divider">
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p class="description">SOMETHING WENT WRONG.</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+        </div>
+
+    </section>
+</div>
+
+{% endblock %}

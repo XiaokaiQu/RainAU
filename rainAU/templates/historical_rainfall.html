@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% load static %}
+    <script src="{% static 'js/echarts.js' %}"></script>
+    <script>
+        var temp_data = {{ send_context|safe }};
+    </script>
+
+    <h1 class="table-light" align="center">Rainfall vs Evaporation in {{ loc }}</h1>
+    <blockquote class="blockquote">
+        <footer class="blockquote-footer">You can click below to switch to the region you want to view.</footer>
+    </blockquote>
+    
+    <div id="container_hr" style="height: 500px"></div>
+    
+    <form action="" method="">
+        {% for i in loc_list %}
+            <input type="radio" name="loc" value="{{ i }}"> {{ i }}
+        {% endfor %}
+    </form>
+    
+    <script type="text/javascript" src="{% static 'js/historical_rainfall.js' %}"></script>
+
+{% endblock %}

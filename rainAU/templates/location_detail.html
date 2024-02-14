@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="rank_left">
+        <table class="table table-striped table-hover caption-top">
+            <caption>10 years of daily weather observations from {{ loc }}</caption>
+            <tr>
+                <th>Date</th>
+                <th>MinTemp</th>
+                <th>MaxTemp</th>
+                <th>Rainfall</th>
+                <th>Evaporation</th>
+                <th>Sunshine</th>
+                <th>WindGusth</th>
+                <th>WindGustSpeed</th>
+                <th>WindD9am</th>
+                <th>WindD3pm</th>
+                <th>WindSpeed9am</th>
+                <th>WindSpeed3pm</th>
+                <th>Humidity9am</th>
+                <th>Humidity3pm</th>
+                <th>Pressure9am</th>
+                <th>Pressure3pm</th>
+                <th>Cloud9am</th>
+                <th>Cloud3pm</th>
+                <th>Temp9am</th>
+                <th>Temp3pm</th>
+                <th>RainToday</th>
+                <th>RainTomorrow</th>
+            </tr>
+            {% for i in page_obj %}
+                <tr>
+                    <td>{{ i.record_date }}</td>
+                    <td>{{ i.MinTemp }}</td>
+                    <td>{{ i.MaxTemp }}</td>
+                    <td>{{ i.Rainfall }}</td>
+                    <td>{{ i.Evaporation }}</td>
+                    <td>{{ i.Sunshine }}</td>
+                    <td>{{ i.WindGustDir }}</td>
+                    <td>{{ i.WindGustSpeed }}</td>
+                    <td>{{ i.WindDir9am }}</td>
+                    <td>{{ i.WindDir3pm }}</td>
+                    <td>{{ i.WindSpeed9am }}</td>
+                    <td>{{ i.WindSpeed3pm }}</td>
+                    <td>{{ i.Humidity9am }}</td>
+                    <td>{{ i.Humidity3pm }}</td>
+                    <td>{{ i.Pressure9am }}</td>
+                    <td>{{ i.Pressure3pm }}</td>
+                    <td>{{ i.Cloud9am }}</td>
+                    <td>{{ i.Cloud3pm }}</td>
+                    <td>{{ i.Temp9am }}</td>
+                    <td>{{ i.Temp3pm }}</td>
+                    <td>{{ i.RainToday }}</td>
+                    <td>{{ i.RainTomorrow }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% if is_paginated %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First&nbsp;&nbsp;</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Last page&nbsp;&nbsp;&nbsp;</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">&nbsp;&nbsp;&nbsp;Next page&nbsp;&nbsp;&nbsp;</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
