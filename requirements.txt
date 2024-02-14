@@ -1,0 +1,10 @@
+asgiref==3.4.1
+certifi==2021.5.30
+Django==3.2.23
+django-crontab==0.7.1
+mysqlclient==2.1.1
+python-dotenv==0.20.0
+python-memcached==1.62
+pytz==2024.1
+sqlparse==0.4.4
+typing_extensions==4.1.1
