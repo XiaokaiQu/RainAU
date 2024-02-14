@@ -6,7 +6,7 @@
 **2. Create Database**  
    connect to your MySQL database as the root MySQL user with the following command:  
       `$ sudo mysql`  
-      
+      `sudo apt install libmysqlclient-dev`      
    To create a database in MySQL:  
       `create database rain_database;`  
       
