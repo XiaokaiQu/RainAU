@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #'rainAU',
     'rainAU.apps.RainauConfig',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Timed tasks
+# python manage.py crontab add
+CRONJOBS = [
+    ('* * * * *','rainAU.myscript.tt', '>> ' + os.path.join(BASE_DIR,'logs/log_time.log' + ' 2>&1 '))
+]
 
 # 给ADMINS发送邮件需要配置
 ADMINS = (
