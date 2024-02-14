@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from rainAU.models import RainInAu, LOCATION_CHOICES
 from rainAU.data_process import dataClean, json_data
 import logging
+from django.core.cache import cache
 
 logging = logging.getLogger(__name__)
 
@@ -17,34 +18,43 @@ def main_map(request):
 
 #Ranking of Rain Probability Tomorrow
 def rank_rain_poss(request):
+    score_rain_rank = {}
+    print(cache.get('rain_poss_today'))
+    # If donot have value in cache, calculate
+    if cache.has_key('rain_poss_today'):
+        print(33)
+        score_rain_rank = cache.get('rain_poss_today')
 
-    today_date = datetime.now().strftime("-%m-%d")
+    else:
+        print(1)
+        today_date = datetime.now().strftime("-%m-%d")
 
-    logging.info("Start calculate Rain Probability")
+        logging.info("Start calculate Rain Probability")
 
-    #Obtain the total number of certain location today 
-    today_count = RainInAu.objects.filter(record_date__endswith=today_date).values('location').annotate(loca_num = Count('location'))
-    #Obtain the times of rainy in certain location today
-    today_rain_count = list(RainInAu.objects.filter(record_date__endswith=today_date,RainTomorrow=True).values('location').annotate(loca_rain_num = Count('location')))
-    
-    #store the probability of rain in certain location
-    score_rain = {}
+        #Obtain the total number of certain location today 
+        today_count = RainInAu.objects.filter(record_date__endswith=today_date).values('location').annotate(loca_num = Count('location'))
+        #Obtain the times of rainy in certain location today
+        today_rain_count = list(RainInAu.objects.filter(record_date__endswith=today_date,RainTomorrow=True).values('location').annotate(loca_rain_num = Count('location')))
+        
+        #store the probability of rain in certain location
+        score_rain = {}
 
-    for j in today_rain_count:
-        score_rain[j['location']] = j['loca_rain_num']
+        for j in today_rain_count:
+            score_rain[j['location']] = j['loca_rain_num']
 
-    #Calculate percentage
-    for i in list(today_count):
-        if i['location'] in score_rain.keys():
-            score_rain[i['location']] = str(round(score_rain.get(i['location'])/i['loca_num'],2) * 100) + '%'
-        else:
-            score_rain[i['location']] = '0.0%'
+        #Calculate percentage
+        for i in list(today_count):
+            if i['location'] in score_rain.keys():
+                score_rain[i['location']] = str(round(score_rain.get(i['location'])/i['loca_num'],2) * 100) + '%'
+            else:
+                score_rain[i['location']] = '0.0%'
 
-    logging.info("Finish calculate Rain Probability")
+        logging.info("Finish calculate Rain Probability")
 
-    #Sort by percentage
-    score_rain_rank = dict(sorted(score_rain.items(),key = lambda x:x[1],reverse = True))
-    
+        #Sort by percentage
+        score_rain_rank = dict(sorted(score_rain.items(),key = lambda x:x[1],reverse = True))
+        cache.set('rain_poss_today',score_rain_rank,timeout=36000)
+
     return render(request, "map_forecast.html",{'score_rain_rank': score_rain_rank})
    
 #Historical Temperature

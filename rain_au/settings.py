@@ -134,10 +134,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:8000',
+    }
+}
+
 # Timed tasks
 # python manage.py crontab add
 CRONJOBS = [
-    ('* * * * *','rainAU.myscript.tt', '>> ' + os.path.join(BASE_DIR,'logs/log_time.log' + ' 2>&1 '))
+    ('1 0 * * *','rainAU.myscript.cal_rain_poss', '>> ' + os.path.join(BASE_DIR,'logs/log_time.log' + ' 2>&1 '))
 ]
 
 # 给ADMINS发送邮件需要配置
