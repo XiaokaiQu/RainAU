@@ -147,46 +147,46 @@ CRONJOBS = [
     ('1 0 * * *','rainAU.myscript.cal_rain_poss', '>> ' + os.path.join(BASE_DIR,'logs/log_time.log' + ' 2>&1 '))
 ]
 
-# log
+
 ADMINS = (
  ('admin_name',str(os.getenv('EMAIL_KEY'))),
 )
 MANAGERS = ADMINS
 
-
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 if not os.path.exists(LOG_DIR): 
     os.mkdir(LOG_DIR) 
+
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
-    "formatters": { 
+    "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "
             "%(process)d %(thread)d %(message)s"
         },
-        'simple': { 
+        'simple': {
             'format': '[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d]%(message)s'
         },
     },
-    "handlers": { 
+    "handlers": {
         "mail_admins": { 
             "level": "ERROR",
             "filters": ["require_debug_false"],
             "class": "django.utils.log.AdminEmailHandler",
         },
-        'file': { 
+        'file': {
             'level': "INFO", 
-            'class': 'logging.handlers.RotatingFileHandler',  
-            'filename': os.path.join(LOG_DIR,'django.log'),  
-            'maxBytes': 1024 * 1024 * 10,  
-            'backupCount': 5, 
-            'formatter': 'simple', 
-            'encoding': 'utf-8', 
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR,'django.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+            'formatter': 'simple',
+            'encoding': 'utf-8',
         },
-        "console": { 
+        "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
@@ -194,12 +194,12 @@ LOGGING = {
     },
     "root": {"level": "INFO", "handlers": ["console"]},
     "loggers": {
-        "django.request": { 
+        "django.request": {
             "handlers": ["mail_admins"],
             "level": "ERROR",
-            "propagate": True,  
+            "propagate": True, 
         },
-        "django.security.DisallowedHost": { 
+        "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console", "mail_admins"],
             "propagate": True,
