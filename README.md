@@ -16,10 +16,11 @@
       
 **3. Load environment**
    ```
-   conda activate rain_aus_env  
-   pip install django  
-   sudo apt install libmysqlclient-dev default-libmysqlclient-dev  
-   pip install mysqlclient  
+   conda env create -f environment.yml
+   #conda activate rain_aus_env  
+   #pip install django  
+   #sudo apt install libmysqlclient-dev default-libmysqlclient-dev  
+   #pip install mysqlclient  
    python manage.py makemigrations  
    python manage.py migrate  
    ```
