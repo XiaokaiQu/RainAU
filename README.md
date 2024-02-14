@@ -1,6 +1,7 @@
 # RainAU
 
 **1. Install MySQL, Conda**  
+  `source ~/.bashrc`
 
 **2. Create Database**  
    connect to your MySQL database as the root MySQL user with the following command:  
