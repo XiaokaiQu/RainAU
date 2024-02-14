@@ -25,4 +25,5 @@
    ```
 
 **4. Run project**  
+   `python manage.py crontab add`
    `python manage.py runserver your-server-ip:8000 --insecure`
