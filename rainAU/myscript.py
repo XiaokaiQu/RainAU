@@ -29,4 +29,4 @@ def cal_rain_poss():
     #Sort by percentage
     score_rain_rank = dict(sorted(score_rain.items(),key = lambda x:x[1],reverse = True))
 
-    cache.set('rain_poss_today',score_rain_rank)
+    cache.set('rain_poss_today',score_rain_rank,timeout=36000)

@@ -19,14 +19,11 @@ def main_map(request):
 #Ranking of Rain Probability Tomorrow
 def rank_rain_poss(request):
     score_rain_rank = {}
-    print(cache.get('rain_poss_today'))
-    # If donot have value in cache, calculate
-    if cache.has_key('rain_poss_today'):
-        print(33)
-        score_rain_rank = cache.get('rain_poss_today')
 
+    if cache.has_key('rain_poss_today'):
+        score_rain_rank = cache.get('rain_poss_today')
+    # If donot have value in cache, calculate
     else:
-        print(1)
         today_date = datetime.now().strftime("-%m-%d")
 
         logging.info("Start calculate Rain Probability")
