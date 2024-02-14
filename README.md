@@ -5,7 +5,6 @@
 
 **2. Create Database**  
    connect to your MySQL database as the root MySQL user with the following command:  
-      `sudo apt install libmysqlclient-dev`
       `$ sudo mysql`  
   
    To create a database in MySQL:  
