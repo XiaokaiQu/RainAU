@@ -197,7 +197,7 @@ def insert_data(request):
         current_date = datetime.now()
         print("Finish insert data: " + current_date.strftime('%m-%d-%y, %H:%M:%S'))
 
-        return HttpResponse("Success")
+        return redirect(reverse("rainAU:rankRP"))
     except Exception as ex:
         logging.error("Upload file have error:"+ex)
-        return HttpResponse("Fail")
+        return render(request,'error.html')
