@@ -19,4 +19,4 @@ class ExceptionMiddleware:
         
         traceback_info = traceback.format_exc()
         logger.error(f"request_path: {request.path}, traceback_info: {traceback_info}")
-        return redirect(reverse("rainAU:error"))
+        return redirect(reverse("rainAU:rankRP"))
