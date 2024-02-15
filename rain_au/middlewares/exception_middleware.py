@@ -18,5 +18,5 @@ class ExceptionMiddleware:
     def process_exception(self, request, exception):
         
         traceback_info = traceback.format_exc()
-        logger.debug(f"request_path: {request.path}, traceback_info: {traceback_info}")
+        logger.error(f"request_path: {request.path}, traceback_info: {traceback_info}")
         return redirect(reverse("rainAU:error"))
