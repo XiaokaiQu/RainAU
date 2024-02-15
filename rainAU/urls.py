@@ -5,7 +5,6 @@ from . import views
 app_name = 'rainAU'
 
 urlpatterns = [
-    path("", views.main_map, name="mainPage"),
     path("rankRP", views.rank_rain_poss, name="rankRP"),
     re_path(r'^charPage/(?P<loc>\w+)/(?P<type>.*)/$', views.history_charPage, name="charPage"),
     re_path(r'^rainList/(?P<loc>\w+)/$', views.RainInAUListView.as_view(), name='rainList'),

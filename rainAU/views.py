@@ -12,10 +12,6 @@ from django.core.cache import cache
 
 logging = logging.getLogger(__name__)
 
-#Jump to Home Page
-def main_map(request):
-    return redirect(reverse("rainAU:rankRP"))
-
 #Ranking of Rain Probability Tomorrow
 def rank_rain_poss(request):
     score_rain_rank = {}
