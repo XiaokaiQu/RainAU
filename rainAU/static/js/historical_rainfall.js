@@ -2,7 +2,7 @@ window.onload = function(){
   var temp_loc = $("h1").text().substring(27);
   $("input:radio[value=" + temp_loc + "]").prop('checked',true);
   $(":radio").click(function(){
-      window.location.href='/rainAU/charPage/'+ $(this).val() + '/1'
+    window.location.href= url.replace('perth',$(this).val());
   });
 };
 

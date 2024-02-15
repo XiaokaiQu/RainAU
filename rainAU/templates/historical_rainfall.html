@@ -6,6 +6,7 @@
     <script src="{% static 'js/echarts.js' %}"></script>
     <script>
         var temp_data = {{ send_context|safe }};
+        var url = "{% url 'rainAU:charPage' loc='perth' type=1 %}";
     </script>
 
     <h1 class="table-light" align="center">Rainfall vs Evaporation in {{ loc }}</h1>
