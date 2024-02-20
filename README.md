@@ -8,6 +8,12 @@ This website is used to predict next-day rain in Australia, and provide download
 The current-version project has been deployed to AWS.  
 http://hiwaperth.com/
 
+## Technology choice
+Python  
+Mysql  
+Django  
+HTML+CSS+Bootstrap+Echart  
+
 **1. Install MySQL, Conda**  
   `source ~/.bashrc`
 
