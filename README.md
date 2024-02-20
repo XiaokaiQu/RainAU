@@ -1,5 +1,9 @@
 # RainAU
 
+## Description
+The data is from https://www.kaggle.com/datasets/jsphyg/weather-dataset-rattle-package/data. This dataset contains about 10 years of daily weather observations from many locations across Australia.  
+This website is used to predict next-day rain in Australia, and provide downloadable temperature comparison charts, as well as comparison charts of rainfall and evaporation, to visitors.  
+
 ## Cloud Deployment
 The current-version project has been deployed to AWS.  
 http://hiwaperth.com/
