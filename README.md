@@ -1,5 +1,5 @@
 # RainAU
-
+[toc]
 ## Description
 The data is from https://www.kaggle.com/datasets/jsphyg/weather-dataset-rattle-package/data. This dataset contains about 10 years of daily weather observations from many locations across Australia.  
 This website is used to predict next-day rain in Australia, and provide downloadable temperature comparison charts, as well as comparison charts of rainfall and evaporation, to visitors.  
@@ -12,8 +12,9 @@ http://hiwaperth.com/
 Python  
 Mysql  
 Django  
-HTML+CSS+Bootstrap+Echart  
+HTML+CSS+Bootstrap+Echart+JS  
 
+## Local Environmental deploy
 **1. Install MySQL, Conda**  
   `source ~/.bashrc`
 
