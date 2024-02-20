@@ -1,7 +1,7 @@
 # RainAU
 
-**Cloud Deployment
-The current-version project has been deployed to AWS.
+** Cloud Deployment **
+The current-version project has been deployed to AWS. 
 http://hiwaperth.com/
 
 **1. Install MySQL, Conda**  
