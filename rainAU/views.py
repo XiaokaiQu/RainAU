@@ -4,11 +4,12 @@ from django.urls import reverse
 from django.db.models  import Count
 import csv, json
 from datetime import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from rainAU.models import RainInAu, LOCATION_CHOICES
 from rainAU.data_process import dataClean, json_data
 import logging
 from django.core.cache import cache
+from django.views.decorators.http import require_POST
 
 logging = logging.getLogger(__name__)
 
@@ -63,7 +64,7 @@ def history_charPage(request,loc,type):
     if type=='1':
         filter_type1 = 'Rainfall'
         filter_type2 = 'Evaporation'
-        template_name = 'historical_rainfall.html'
+        template_name = 'historical_rainfall_evap.html'
         for i in LOCATION_CHOICES[1:]:
             loc_list.append(i[1])
         loc_list.sort()
@@ -93,6 +94,29 @@ def history_charPage(request,loc,type):
     send_context = json.dumps({"date_list":date_list,"first_list":first_list,"second_list":second_list},cls=json_data.DecEncoder)
 
     return render(request, template_name, {"send_context":send_context,"loc":loc,"loc_list":loc_list})
+
+@require_POST
+def rainfall_evap_by_city(request):
+    if request.is_ajax():
+        logging.info("Ajax require")
+
+        city = request.POST.get('city')
+        temp_data = RainInAu.objects.filter(location=city).values('record_date','Rainfall','Evaporation').order_by('record_date')
+
+        #Get category/date
+        date_list = []
+        #Get Rainfall/MinTemp
+        first_list = []
+        #Get Evaporation/MaxTemp
+        second_list = []
+        for i in temp_data:
+            date_list.append(i['record_date'])
+            first_list.append(i['Rainfall'])
+            second_list.append(i['Evaporation'])
+
+        return JsonResponse({'status': 'success', "date_list":date_list, "first_list":first_list, "second_list":second_list,"loc":city})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
 class RainInAUListView(ListView):
     model = RainInAu

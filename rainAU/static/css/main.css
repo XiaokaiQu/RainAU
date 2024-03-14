@@ -56,7 +56,7 @@ body {
     background: #333;
     height: 60px;
     font-size: 14px;
-    margin-top: auto; /* 将 footer 固定在页面底部 */
+    margin-top: auto;
 }
 
 /* Responsive Layout - When the width size of the screen device is less than 400px, stack the navigation bar up and down for display */
@@ -94,4 +94,20 @@ body {
 
 .return-btn:hover {
     background-color: #fff;
+}
+
+.container_sel {
+    display: flex;
+    flex-direction: row; /* Horizontal layout */
+    align-items: center; /* Center items vertically */
+    margin:0 auto;
+}
+
+/* Add margin for better spacing */
+label {
+    margin-right: 10px;
+}
+
+select {
+    margin-right: 20px;
 }

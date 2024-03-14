@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% load static %}
+    <script src="{% static 'js/echarts.js' %}"></script>
+
+    <h1 id="city-heading" class="table-light" align="center">Rainfall vs Evaporation in Perth</h1>
+
+    <div class="container_sel">
+        <label for="state-select">Select a State:</label>
+        <select id="state-select" onchange="updateCities()">
+            <option value="NSW">New South Wales</option>
+            <option value="VIC">Victoria</option>
+            <option value="QLD">Queensland</option>
+            <option value="SA">South Australia</option>
+            <option value="WA" selected>Western Australia</option>
+            <option value="TAS">Tasmania</option>
+            <option value="ACT">Australian Capital Territory</option>
+            <option value="NT">Northern Territory</option>
+        </select>
+
+        <label for="city-select">Select a City:</label>
+        <select id="city-select" onchange="sendCityToBackend()">
+            <option value="Perth" selected>Perth</option>
+            <option value="Albany">Albany</option>
+            <option value="Broome">Broome</option>
+            <option value="Geraldton">Geraldton</option>
+            <option value="Kalgoorlie">Kalgoorlie</option>
+        </select>
+    </div>
+
+    <div id="container_hr" style="height: 500px"></div>
+    
+    <script type="text/javascript" src="{% static 'js/historical_rainfall_evap.js' %}"></script>
+
+{% endblock %}
