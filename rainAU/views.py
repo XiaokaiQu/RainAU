@@ -10,6 +10,7 @@ from rainAU.data_process import dataClean, json_data
 import logging
 from django.core.cache import cache
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 
 logging = logging.getLogger(__name__)
 
@@ -99,6 +100,7 @@ def turn_to_rebc(request):
     return render(request, 'historical_rainfall_evap.html')
 
 @require_POST
+@csrf_exempt
 def rainfall_evap_by_city(request):
     if request.is_ajax():
         logging.info("Ajax require")
