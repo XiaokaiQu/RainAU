@@ -38,7 +38,8 @@ def rank_rain_poss(request):
         #Calculate percentage
         for i in list(today_count):
             if i['location'] in score_rain.keys():
-                score_rain[i['location']] = str(round(score_rain.get(i['location'])/i['loca_num'],2) * 100) + '%'
+                #score_rain[i['location']] = str(round(score_rain.get(i['location'])/i['loca_num'],2) * 100) + '%'
+                score_rain[i['location']] = "{:.1f}%".format(score_rain.get(i['location'])/i['loca_num'] * 100)
             else:
                 score_rain[i['location']] = '0.0%'
 
