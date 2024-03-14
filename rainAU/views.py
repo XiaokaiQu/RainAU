@@ -95,6 +95,9 @@ def history_charPage(request,loc,type):
 
     return render(request, template_name, {"send_context":send_context,"loc":loc,"loc_list":loc_list})
 
+def turn_to_rebc(request):
+    return render(request, 'historical_rainfall_evap.html')
+
 @require_POST
 def rainfall_evap_by_city(request):
     if request.is_ajax():
