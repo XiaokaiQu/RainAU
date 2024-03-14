@@ -1,7 +1,21 @@
 # RainAU
 
+## Description
+The data is from https://www.kaggle.com/datasets/jsphyg/weather-dataset-rattle-package/data. This dataset contains about 10 years of daily weather observations from many locations across Australia.  
+This website is used to predict next-day rain probability in Australia, and provide downloadable temperature comparison charts, as well as comparison charts of rainfall and evaporation, to visitors.  
+
+## Cloud Deployment
+The current-version project has been deployed to AWS.  
+http://hiwaperth.com/
+
+## Technology choice
+Python  
+Mysql  
+Django  
+HTML+CSS+Bootstrap+Echart+JS  
+
+## Local Environmental deploy
 **1. Install MySQL, Conda**  
-  `source ~/.bashrc`
 
 **2. Create Database**  
    connect to your MySQL database as the root MySQL user with the following command:  
@@ -27,5 +41,5 @@
    ```
 
 **4. Run project**  
-   `python manage.py crontab add`
+   `python manage.py crontab add`  
    `python manage.py runserver your-server-ip:8000 --insecure`
